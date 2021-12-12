@@ -16,6 +16,8 @@ class MainTest {
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
     };
 
+    // https://junit.org/junit5/docs/current/api/org.junit.jupiter.api/org/junit/jupiter/api/Assertions.html
+
     @Test
     void recuentoCorrecto() {
         assertEquals(Main.recuento(tablero, 3, 2), 2);
