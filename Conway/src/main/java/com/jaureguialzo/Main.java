@@ -6,12 +6,10 @@ import java.io.InputStreamReader;
 
 public class Main {
 
-    private static int[][] tablero;
-
     /**
      * Muestra en tablero en pantalla, escribiendo un '.' si hay un 0 o un '#' si hay un 1
      */
-    private static void visualizarTablero() {
+    public static void visualizar(int[][] tablero) {
         for (int i = 0; i < tablero.length; i++) {
             for (int j = 0; j < tablero[0].length; j++) {
                 if (tablero[i][j] == 0) {
@@ -29,7 +27,7 @@ public class Main {
      *
      * @return Entero con la respuesta del usuario o 5 si se produce un error de lectura
      */
-    private static int numCiclos() {
+    public static int numCiclos() {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -52,7 +50,7 @@ public class Main {
      * @param columna Columna del tablero correspondiente a la célula de la que queremos hacer el cálculo
      * @return La suma de todas las casillas que rodean a la correspondiente a [fila][columna]
      */
-    private static int recuento(int fila, int columna) {
+    public static int recuento(int[][] tablero, int fila, int columna) {
         int total = 0;
 
         for (int i = -1; i < 2; i++) {
@@ -75,13 +73,13 @@ public class Main {
      *
      * @return Un nuevo array del mismo tamaño que el tablero con los recuentos
      */
-    private static int[][] calcularVecinas() {
+    public static int[][] calcularVecinas(int[][] tablero) {
 
         int[][] temp = new int[tablero.length][tablero[0].length];
 
         for (int i = 0; i < temp.length; i++) {
             for (int j = 0; j < temp[0].length; j++) {
-                temp[i][j] = recuento(i, j);
+                temp[i][j] = recuento(tablero, i, j);
             }
         }
 
@@ -94,9 +92,9 @@ public class Main {
      * 1. Una célula viva con 2 o 3 células vecinas vivas sigue viva, en otro caso muere (por "soledad" o "superpoblación")
      * 2. Una célula muerta con exactamente 3 células vecinas vivas "nace" (es decir, al turno siguiente estará viva)
      */
-    private static void actualizarTablero() {
+    public static void actualizar(int[][] tablero) {
 
-        int[][] vecinas = calcularVecinas();
+        int[][] vecinas = calcularVecinas(tablero);
 
         for (int i = 0; i < tablero.length; i++) {
             for (int j = 0; j < tablero[0].length; j++) {
@@ -113,12 +111,12 @@ public class Main {
     }
 
     /**
-     * Programa principal, no modificar
+     * Programa principal
      */
     public static void main(String[] args) {
 
         // Posición inicial del tablero (6x25)
-        tablero = new int[][]{
+        int[][] tablero = new int[][]{
                 {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,},
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,},
                 {0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
@@ -129,7 +127,7 @@ public class Main {
 
         // Mostrar el tablero
         System.out.println("Estado inicial: ");
-        visualizarTablero();
+        visualizar(tablero);
 
         // Pedir al usuario el número de ciclos a repetir
         int ciclos = numCiclos();
@@ -138,8 +136,8 @@ public class Main {
         // Actualizar el tablero
         for (int i = 0; i < ciclos; i++) {
             System.out.format("Ciclo: %d%n", i + 1);
-            actualizarTablero();
-            visualizarTablero();
+            actualizar(tablero);
+            visualizar(tablero);
         }
     }
 }
